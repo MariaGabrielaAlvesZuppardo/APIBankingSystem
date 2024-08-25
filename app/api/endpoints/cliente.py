@@ -1,23 +1,23 @@
 from fastapi import APIRouter, HTTPException, Depends
-from app.schemas.cliente import ClienteCreate
-from app.services.banco_service import BancoService
+from app.schemas.client import ClientCreate
+from app.services.bank_service import BankService
 
 router = APIRouter()
 
-def get_banco_service():
-    return BancoService()
+def get_bank_service():
+    return BankService()
 
-@router.post("/clientes/")
-def create_cliente(cliente_create: ClienteCreate, banco_service: BancoService = Depends(get_banco_service)):
+@router.post("/clients/")
+def create_client(client_create: ClientCreate, bank_service: BankService = Depends(get_bank_service)):
     try:
-        cliente = banco_service.cadastrar_cliente(
-            cliente_create.nome,
-            cliente_create.data_nascimento,
-            cliente_create.cpf,
-            cliente_create.endereco
+        client = bank_service.register_client(
+            client_create.name,
+            client_create.birth_date,
+            client_create.cpf,
+            client_create.address
         )
-        if not cliente:
+        if not client:
             raise HTTPException(status_code=400, detail="Client already registered.")
-        return cliente
+        return client
     except HTTPException as e:
         raise e

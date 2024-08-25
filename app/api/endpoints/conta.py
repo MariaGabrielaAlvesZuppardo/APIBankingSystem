@@ -1,21 +1,21 @@
 from fastapi import APIRouter, HTTPException, Depends
-from app.schemas.conta import ContaCreate
-from app.services.banco_service import BancoService
+from app.schemas.account import AccountCreate
+from app.services.bank_service import BankService
 
 router = APIRouter()
 
-def get_banco_service():
-    return BancoService()
+def get_bank_service():
+    return BankService()
 
-@router.post("/contas/")
-def create_conta(conta_create: ContaCreate, banco_service: BancoService = Depends(get_banco_service)):
+@router.post("/accounts/")
+def create_account(account_create: AccountCreate, bank_service: BankService = Depends(get_bank_service)):
     try:
-        conta = banco_service.criar_conta_corrente(
-            conta_create.cpf,
-            conta_create.saldo_inicial
+        account = bank_service.create_current_account(
+            account_create.cpf,
+            account_create.initial_balance
         )
-        if not conta:
+        if not account:
             raise HTTPException(status_code=400, detail="Client not found.")
-        return conta
+        return account
     except HTTPException as e:
         raise e
