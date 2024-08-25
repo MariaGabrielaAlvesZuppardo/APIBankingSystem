@@ -1,5 +1,5 @@
 from pydantic import BaseModel
 
-class ContaCreate(BaseModel):
+class AccountCreate(BaseModel):
     cpf: str
-    saldo_inicial: float
+    initial_balance: float

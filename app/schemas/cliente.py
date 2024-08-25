@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
-class ClienteCreate(BaseModel):
-    nome: str
-    data_nascimento: str
+class ClientCreate(BaseModel):
+    name: str
+    date_of_birth: str
     cpf: str
-    endereco: str
+    address: str
