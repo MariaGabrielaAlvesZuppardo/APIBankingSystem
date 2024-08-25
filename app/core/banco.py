@@ -1,22 +1,22 @@
-from typing import List,Optional
-from app.api.models.cliente import Cliente
-from app.api.models.conta import Conta 
+from typing import List, Optional
+from app.api.models.client import Client
+from app.api.models.account import Account
 
-class Banco:
+class Bank:
     def __init__(self):
-        self.clientes: List[Cliente] = []
-        self.contas: List [Conta] = []
+        self.clients: List[Client] = []
+        self.accounts: List[Account] = []
         
-    def cadastrar_cliente(self,nome:str,data_nascimento:str,cpf:str,endereco:str) -> Cliente:
-        if self.buscar_cliente_por_cpf(cpf):
-            raise ValueError(f"Já existe um cliente cadastrado com o CPF {cpf}.")
+    def register_client(self, name: str, birth_date: str, cpf: str, address: str) -> Client:
+        if self.find_client_by_cpf(cpf):
+            raise ValueError(f"A client with CPF {cpf} is already registered.")
         
-        cliente = Cliente(nome,data_nascimento,cpf,endereco)
-        self.clientes.append(cliente)
-        return cliente
+        client = Client(name, birth_date, cpf, address)
+        self.clients.append(client)
+        return client
     
-    def buscar_cliente_por_cpf(self,cpf:str) -> Optional[Cliente]:
-        for cliente in self.clientes:
-            if cliente.cpf == cpf:
-                return cliente
-        return None        
+    def find_client_by_cpf(self, cpf: str) -> Optional[Client]:
+        for client in self.clients:
+            if client.cpf == cpf:
+                return client
+        return None
