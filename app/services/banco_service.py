@@ -1,42 +1,41 @@
 from app.core.banco import Banco
-from app.api.models.conta import Conta 
+from app.api.models.conta import Conta
 
-class BancoService:
+class BankService:
     def __init__(self):
-        self.banco = Banco()
+        self.bank = Banco()
     
+    def register_client(self, name: str, date_of_birth: str, cpf: str, address: str):
+        return self.bank.register_client(name, date_of_birth, cpf, address)
     
-    def cadastrar_cliente(self,nome:str,data_nascimento:str,cpf:str,endereco:str):
-        return self.banco.cadastrar_cliente(nome,data_nascimento,cpf,endereco)
-    
-    def criar_conta_corrente(self,cpf:str,saldo_inicial:float):
-        cliente = self.banco.buscar_cliente_por_cpf(cpf)
-        if not cliente:
-            raise ValueError(f"Cliente com CPF {cpf} não encontrado")
+    def create_current_account(self, cpf: str, initial_balance: float):
+        client = self.bank.find_client_by_cpf(cpf)
+        if not client:
+            raise ValueError(f"Client with CPF {cpf} not found.")
         
-        conta = Conta(cliente,saldo_inicial) 
-        cliente.adicionando_conta(conta)
-        self.banco.contas.append(conta)
-        return conta
-    def realizar_transacao(self, cpf: str, tipo: str, valor: float):
-        cliente = self.banco.buscar_cliente_por_cpf(cpf)
-        if not cliente or not cliente.contas:
-            raise ValueError(f"Cliente com CPF {cpf} não encontrado ou não possui contas.")
+        account = Conta(client, initial_balance)
+        client.add_account(account)
+        self.bank.accounts.append(account)
+        return account
+    
+    def make_transaction(self, cpf: str, transaction_type: str, amount: float):
+        client = self.bank.find_client_by_cpf(cpf)
+        if not client or not client.accounts:
+            raise ValueError(f"Client with CPF {cpf} not found or has no accounts.")
         
-        conta = cliente.contas[0]  # Supondo que o cliente tenha ao menos uma conta
-        if tipo.lower() == "depósito":
-            conta.depositar(valor)
-        elif tipo.lower() == "saque":
-            conta.sacar(valor)
+        account = client.accounts[0]  # Assuming the client has at least one account
+        if transaction_type.lower() == "deposit":
+            account.deposit(amount)
+        elif transaction_type.lower() == "withdrawal":
+            account.withdraw(amount)
         else:
-            raise ValueError("Tipo de transação inválido.")
-        return "Transação realizada com sucesso."
+            raise ValueError("Invalid transaction type.")
+        return "Transaction completed successfully."
 
-    def exibir_extrato(self, cpf: str):
-        cliente = self.banco.buscar_cliente_por_cpf(cpf)
-        if not cliente or not cliente.contas:
-            raise ValueError(f"Cliente com CPF {cpf} não encontrado ou não possui contas.")
+    def show_statement(self, cpf: str):
+        client = self.bank.find_client_by_cpf(cpf)
+        if not client or not client.accounts:
+            raise ValueError(f"Client with CPF {cpf} not found or has no accounts.")
         
-        conta = cliente.contas[0]  # Supondo que o cliente tenha ao menos uma conta
-        return conta.visualizar_extrato()   
-        
+        account = client.accounts[0]  # Assuming the client has at least one account
+        return account.view_statement()
