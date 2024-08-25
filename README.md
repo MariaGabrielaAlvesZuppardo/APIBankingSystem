@@ -1,75 +1,97 @@
-# APIBankingSystem
+# API Banking System
 
-Este é um sistema de API bancária criado com FastAPI. Ele permite a criação e gerenciamento de clientes, contas bancárias e transações.
+A FastAPI application for managing a banking system, including user authentication, account management, transactions, and advanced reporting features.
 
-## Estrutura do Projeto
+## Features
 
-A estrutura do projeto é organizada da seguinte maneira:
+1. **Authentication and Authorization**
+   - **User Registration and Login:** Allows users to register and log in with authentication.
+   - **Access Tokens:** Uses JWT (JSON Web Tokens) to protect routes and manage user sessions.
 
--> banking_app/ │ ├── app/ │ ├── init.py │ ├── main.py │ ├── api/ │ │ ├── init.py │ │ ├── endpoints/ │ │ │ ├── init.py │ │ │ ├── cliente.py │ │ │ ├── conta.py │ │ │ ├── transacao.py │ │ │ └── extrato.py │ │ └── models/ │ │ ├── init.py │ │ ├── cliente.py │ │ ├── conta.py │ │ └── transacao.py │ ├── core/ │ │ ├── init.py │ │ └── banco.py │ ├── services/ │ │ ├── init.py │ │ └── banco_service.py │ └── schemas/ │ ├── init.py │ ├── cliente.py │ ├── conta.py │ └── transacao.py │ └── tests/ ├── init.py ├── test_cliente.py ├── test_conta.py └── test_transacao.py
+2. **User Management**
+   - **User Registration:** Register new users.
+   - **User Login:** Authenticate users and issue JWT tokens.
 
+3. **Account Management**
+   - **Create Account:** Create new bank accounts.
+   - **Update Account:** Update account information such as address and phone number.
+   - **Close Account:** Functionality to close accounts upon request.
 
-## Pré-requisitos
+4. **Transaction Management**
+   - **Deposit and Withdrawal:** Allow transactions to deposit or withdraw funds.
+   - **View Transaction History:** View the history of transactions for an account.
 
-Certifique-se de que você tem o Python e o `pip` instalados. Você pode usar um ambiente virtual para gerenciar as dependências.
+5. **Account Statements**
+   - **Generate Detailed Reports:** Allow clients to generate detailed transaction reports for specific periods.
+   - **Categorized Statements:** Classify and display transactions by categories such as "Food", "Leisure", etc.
 
-## Instalação
+6. **Optimization Features**
+   - **Personalized Recommendations:** Offer personalized recommendations for financial products based on transaction history and client profile.
+   - **Resource Optimization:** Implement features like loan and investment simulators.
 
-1. **Clone o repositório:**
-
-   ```bash
-   git clone https://github.com/MariaGabrielaAlvesZuppardo/APIBankingSystem.git
-   cd seu_repositorio
-
-2. **Crie e ative um ambiente virtual:**
-python -m venv .venv
-source .venv/bin/activate  # No Windows, use .venv\Scripts\activate
-
-3. **Instale as dependências:** 
-pip install fastapi uvicorn
-
-## Uso: 
-
-1. **Inicie o servidor :** 
-uvicorn app.main:app --reload
-
-Isso iniciará a aplicação no modo de desenvolvimento, com recarga automática ao fazer alterações.
-
-2. **Acesse a documentação Swagger UI:**
-
-Abra o navegador e vá para:
-
-http://127.0.0.1:8000/docs
-
-Esta interface permite explorar e testar os endpoints da API.
-
-## Endpoints da API : 
-
-Aqui estão alguns dos endpoints disponíveis:
-Criar Cliente
-
-    Método: POST
-    Endpoint: /clientes/
-    Corpo da Requisição: JSON
-
-{
-  "nome": "Nome do Cliente",
-  "data_nascimento": "dd/mm/yyyy",
-  "cpf": "12345678901",
-  "endereco": "Rua X, 123 - Bairro - Cidade UF"
-}
+## Directory Structure
 
 
-## Testes
+## Installation
 
-Os testes estão localizados na pasta tests/. Você pode usar pytest para executar os testes:
+1. **Clone the repository:**
 
-pip install pytest
+    ```bash
+    git clone https://github.com/yourusername/yourrepository.git
+    cd yourrepository
+    ```
+
+2. **Create and activate a virtual environment:**
+
+    ```bash
+    python -m venv .venv
+    source .venv/bin/activate  # For Windows use .venv\Scripts\activate
+    ```
+
+3. **Install the dependencies:**
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4. **Configure the database:**
+   - Set up your PostgreSQL or SQLite database as described in `app/core/db.py`.
+
+5. **Run the application:**
+
+    ```bash
+    uvicorn app.main:app --reload
+    ```
+
+## API Endpoints
+
+### Authentication
+
+- **POST /auth/register/**: Register a new user.
+- **POST /auth/login/**: Authenticate a user and get a JWT token.
+
+### Clients
+
+- **POST /clientes/**: Register a new client.
+- **PUT /clientes/{cpf}**: Update client details.
+- **DELETE /clientes/{cpf}**: Close a client account.
+
+### Accounts
+
+- **POST /contas/**: Create a new account.
+- **GET /contas/{cpf}**: Get account details for a client.
+
+### Transactions
+
+- **POST /transacoes/**: Create a new transaction (deposit/withdrawal).
+
+### Categories
+
+- **GET /categorias/extrato-categorias/**: Get categorized transaction reports for a client.
+
+## Running Tests
+
+To run the tests, use:
+
+```bash
 pytest
-
-## Contribuições
-
-Contribuições são bem-vindas! Por favor, envie um pull request ou abra uma issue para discutir melhorias.
-Licença
-
-Este projeto é licenciado sob a MIT License.
