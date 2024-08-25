@@ -39,3 +39,16 @@ class BankService:
         
         account = client.accounts[0]  # Assuming the client has at least one account
         return account.view_statement()
+    def buscar_conta_por_numero(self, numero: int) -> Optional[Conta]:
+        for conta in self.banco.contas:
+            if conta.numero == numero:
+                return conta
+        return None
+    
+    def encerrar_conta(self, numero: int):
+        conta = self.buscar_conta_por_numero(numero)
+        if not conta:
+            raise ValueError(f"Conta com número {numero} não encontrada.")
+        
+        self.banco.contas.remove(conta)
+        conta.cliente.contas.remove(conta)
