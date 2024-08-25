@@ -1,13 +1,13 @@
 from datetime import datetime
+from typing import List
 
-class Cliente : 
-    def __init__(self,nome:str,data_nascimento:datetime, cpf:str,endereco:str) :
-        self.nome = nome
-        self.data_nascimento = data_nascimento
-        self.endereco = endereco
+class Client:
+    def __init__(self, name: str, birth_date: datetime, cpf: str, address: str):
+        self.name = name
+        self.birth_date = birth_date
+        self.address = address
         self.cpf = cpf
-        self.contas = []
-        
-    
-    def adicionando_conta(self,conta):
-        self.contas.append(conta)    
+        self.accounts: List['Account'] = []
+
+    def add_account(self, account: 'Account'):
+        self.accounts.append(account)

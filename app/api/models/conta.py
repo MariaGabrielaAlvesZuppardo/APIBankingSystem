@@ -1,30 +1,28 @@
 from datetime import datetime
+from typing import List, Tuple
 
-class Conta:
-    numero_conta_sequencial = 1
-    
-    def __init__(self,cliente,saldo_inicial:float):
-        self.agencia = "0001"
-        self.numero = Conta.numero_conta_sequencial
-        Conta.numero_conta_sequencial += 1 
-        self.cliente = cliente
-        self.saldo = saldo_inicial
-        self.historico = []
-        self.transacoes_diarias = {}
-        
-    
-    def depositar (self,valor:float):
-        self.saldo += valor 
-        self.historico.append ((datetime.now(),"Depósito",valor))
-        
-    
-    def sacar (self,valor: float):
-        if valor <= self.saldo:
-            self.saldo -= valor 
-            self.historico.append((datetime.now(),"Saque",valor))
-        
+class Account:
+    sequential_account_number = 1
+
+    def __init__(self, client: 'Client', initial_balance: float):
+        self.branch = "0001"
+        self.number = Account.sequential_account_number
+        Account.sequential_account_number += 1
+        self.client = client
+        self.balance = initial_balance
+        self.history: List[Tuple[datetime, str, float]] = []
+        self.daily_transactions = {}
+
+    def deposit(self, amount: float):
+        self.balance += amount
+        self.history.append((datetime.now(), "Deposit", amount))
+
+    def withdraw(self, amount: float):
+        if amount <= self.balance:
+            self.balance -= amount
+            self.history.append((datetime.now(), "Withdrawal", amount))
         else:
-            raise ValueError("Saldo insuficiente")   
-    
-    def visualizar_extrato(self):
-        return [(data,tipo,valor) for data,tipo,valor in self.historico]            
+            raise ValueError("Insufficient balance")
+
+    def view_statement(self):
+        return [(date, type, amount) for date, type, amount in self.history]
